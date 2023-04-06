@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "490986491156",
+    "project_id": "flutter-social-49ece",
+    "storage_bucket": "flutter-social-49ece.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490986491156:android:c9ba7296bdfc559b248601",
+        "android_client_info": {
+          "package_name": "com.bundungus.flutter_social"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490986491156-utni1g23qmj94hb8m7p9u35q3of03pqo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bundungus.flutter_social",
+            "certificate_hash": "97c637bba0f1b2aee535f336c5563b9e1ae89bfb"
+          }
+        },
+        {
+          "client_id": "490986491156-osto96vl3ucfaeiq5867cuma0hen6em3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6hWCGy3pwzbAsDPZfxwp-7EA1JoxEGYI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490986491156-osto96vl3ucfaeiq5867cuma0hen6em3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

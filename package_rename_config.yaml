@@ -1,0 +1,31 @@
+package_rename_config:
+  android:
+    app_name: Flutter Social
+    package_name: com.bundungus.flutter_social
+    override_old_package: com.example.social_network
+    lang: kotlin
+
+  ios:
+    app_name: Flutter Social
+    bundle_name: fluttersocial
+    package_name: com.bundungus.flutter_social
+
+  web:
+    app_name: Flutter Social
+    description: Package to change project configurations.
+
+  linux:
+    app_name: Flutter Social
+    package_name: com.bundungus.flutter_social
+    exe_name: fluttersocial-linux-x64
+
+  windows:
+    app_name: Flutter Social
+    organization: OutdatedGuy
+    copyright_notice: Copyright ©️ 2022 OutdatedGuy. All rights reserved.
+    exe_name: fluttersocial-win32
+
+  macos:
+    app_name: Flutter Social
+    package_name: com.bundungus.flutter_social
+    copyright_notice: Copyright ©️ 2022 OutdatedGuy. All rights reserved.
