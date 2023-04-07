@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_network/firebase_flutter.dart';
 import 'package:social_network/screens/create_pub_screen.dart';
 import 'package:social_network/widgets/pud_widget.dart';
 
@@ -14,7 +15,9 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              FirebaseFlutter().handleSignIn();
+            },
             icon: Icon(
               Icons.login,
             ),
