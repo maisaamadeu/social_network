@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:social_network/screens/create_pub_screen.dart';
 import 'package:social_network/widgets/bottom_navigator_widget.dart';
-import 'package:social_network/widgets/pud_widget.dart';
+import 'package:social_network/widgets/pub_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -19,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text(
           'Tela Inicial',
         ),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Padding(
@@ -28,7 +29,10 @@ class _HomeScreenState extends State<HomeScreen> {
               top: 5,
             ),
             child: StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('pubs').snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection('pubs')
+                  .orderBy('date')
+                  .snapshots(),
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -56,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 item.containsKey('img') ? item['img'] : null,
                             text:
                                 item.containsKey('text') ? item['text'] : null,
+                            timestamp: item['date'],
                           );
                         },
                       );
@@ -71,9 +76,11 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (context) => const CreatePubScreen(),
           ),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.create,
+          color: Colors.lightBlue[100],
         ),
+        backgroundColor: Colors.indigo,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigatorWidget(

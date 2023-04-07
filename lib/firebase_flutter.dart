@@ -28,14 +28,17 @@ class FirebaseFlutter {
       await pubs.doc(DateTime.now().microsecondsSinceEpoch.toString()).set({
         'text': text,
         'img': url,
+        'date': Timestamp.now(),
       });
     } else if (text != null && img == null) {
       await pubs.doc(DateTime.now().microsecondsSinceEpoch.toString()).set({
         'text': text,
+        'date': Timestamp.now(),
       });
     } else if (img != null && text == null) {
       await pubs.doc(DateTime.now().microsecondsSinceEpoch.toString()).set({
         'img': url,
+        'date': Timestamp.now(),
       });
     }
   }
