@@ -13,8 +13,10 @@ dependencies:
   firebase_storage: ^11.1.0
   flutter:
     sdk: flutter
+  flutter_mobx: ^2.0.6+5
   google_sign_in: ^6.1.0
   image_picker: ^0.8.7+1
+  mobx: ^2.1.4
 
 dev_dependencies:
   flutter_test:

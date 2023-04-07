@@ -1,10 +1,15 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../firebase_flutter.dart';
+
 class CreatePubScreen extends StatefulWidget {
-  const CreatePubScreen({super.key});
+  const CreatePubScreen({
+    super.key,
+  });
 
   @override
   State<CreatePubScreen> createState() => _CreatePubScreenState();
@@ -12,7 +17,6 @@ class CreatePubScreen extends StatefulWidget {
 
 class _CreatePubScreenState extends State<CreatePubScreen> {
   File? _image;
-  bool isEmptyTitle = false;
   bool isEmptyText = false;
 
   Future<void> _takePicture() async {
@@ -37,7 +41,6 @@ class _CreatePubScreenState extends State<CreatePubScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController titleController = TextEditingController();
     TextEditingController textController = TextEditingController();
 
     return Scaffold(
@@ -52,18 +55,6 @@ class _CreatePubScreenState extends State<CreatePubScreen> {
             top: 20,
           ),
           children: [
-            TextField(
-              controller: titleController,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                label: const Text('Título'),
-                errorText:
-                    isEmptyTitle ? 'Este campo não pode ficar vazio!' : null,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
             TextField(
               maxLines: null,
               controller: textController,
@@ -105,24 +96,18 @@ class _CreatePubScreenState extends State<CreatePubScreen> {
                 child: Image.file(_image!),
               ),
             ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  if (titleController.text == '' ||
-                      titleController.text == null) {
-                    isEmptyTitle = true;
-                  } else {
-                    isEmptyTitle = false;
-                  }
-
-                  if (textController.text == '' ||
-                      textController.text == null) {
-                    isEmptyText = true;
-                  } else {
-                    isEmptyText = false;
-                  }
-                });
-
-                if (!isEmptyText && !isEmptyTitle) {
+              onPressed: () async {
+                if (textController.text != '' ||
+                    _image != null ||
+                    textController.text != null) {
+                  FirebaseFlutter().publish(
+                    text:
+                        textController.text != null || textController.text != ''
+                            ? textController.text
+                            : null,
+                    img: _image != null ? _image : null,
+                    context: context,
+                  );
                   Navigator.pop(context);
                 }
               },

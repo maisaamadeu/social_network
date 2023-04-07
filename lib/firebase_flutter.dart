@@ -1,27 +1,42 @@
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 
 class FirebaseFlutter {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  void publish({
+    required String? text,
+    required File? img,
+    required BuildContext context,
+  }) async {
+    final CollectionReference pubs =
+        FirebaseFirestore.instance.collection('pubs');
+    late String url;
 
-  Future<User?> handleSignIn() async {
-    GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-    GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+    if (img != null) {
+      UploadTask uploadTask = FirebaseStorage.instance
+          .ref()
+          .child(DateTime.now().microsecondsSinceEpoch.toString())
+          .putFile(img);
 
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    final User? user = (await _auth.signInWithCredential(credential)).user;
-
-    if (user != null) {
-      print("Usuário autenticado com sucesso");
-    } else {
-      print("Falha na autenticação do usuário");
+      TaskSnapshot taskSnapshot = await uploadTask;
+      url = await taskSnapshot.ref.getDownloadURL();
     }
 
-    return user;
+    if (text != null && img != null) {
+      await pubs.doc(DateTime.now().microsecondsSinceEpoch.toString()).set({
+        'text': text,
+        'img': url,
+      });
+    } else if (text != null && img == null) {
+      await pubs.doc(DateTime.now().microsecondsSinceEpoch.toString()).set({
+        'text': text,
+      });
+    } else if (img != null && text == null) {
+      await pubs.doc(DateTime.now().microsecondsSinceEpoch.toString()).set({
+        'img': url,
+      });
+    }
   }
 }

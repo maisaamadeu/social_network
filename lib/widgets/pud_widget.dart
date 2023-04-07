@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PubWidget extends StatelessWidget {
-  const PubWidget({super.key});
+  const PubWidget({super.key, this.imageURL, this.text});
+  final String? imageURL;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +41,22 @@ class PubWidget extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua 😊😊😊',
-              style: TextStyle(),
-              textAlign: TextAlign.start,
-            ),
+            if (text != null)
+              Text(
+                text!,
+                style: TextStyle(),
+                textAlign: TextAlign.start,
+              ),
             const SizedBox(
               height: 10,
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                'https://images.pexels.com/photos/2657669/pexels-photo-2657669.jpeg?auto=compress&cs=tinysrgb&w=600',
+            if (imageURL != null)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  imageURL!,
+                ),
               ),
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
