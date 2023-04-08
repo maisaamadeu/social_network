@@ -17,7 +17,7 @@ class CreatePubScreen extends StatefulWidget {
 
 class _CreatePubScreenState extends State<CreatePubScreen> {
   File? _image;
-  bool isEmptyText = false;
+  bool isEmpty = false;
 
   Future<void> _takePicture() async {
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -58,11 +58,9 @@ class _CreatePubScreenState extends State<CreatePubScreen> {
             TextField(
               maxLines: null,
               controller: textController,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                label: const Text('Texto'),
-                errorText:
-                    isEmptyText ? 'Este campo não pode ficar vazio!' : null,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                label: Text('Texto'),
               ),
             ),
             const SizedBox(
@@ -97,8 +95,19 @@ class _CreatePubScreenState extends State<CreatePubScreen> {
               ),
             ElevatedButton(
               onPressed: () async {
-                if (textController.text != '' ||
-                    _image != null ||
+                if (textController.text != '' &&
+                    textController.text != null &&
+                    _image != null) {
+                  FirebaseFlutter().publish(
+                    text:
+                        textController.text != null || textController.text != ''
+                            ? textController.text
+                            : null,
+                    img: _image != null ? _image : null,
+                    context: context,
+                  );
+                  Navigator.pop(context);
+                } else if (textController.text != '' &&
                     textController.text != null) {
                   FirebaseFlutter().publish(
                     text:
@@ -109,10 +118,34 @@ class _CreatePubScreenState extends State<CreatePubScreen> {
                     context: context,
                   );
                   Navigator.pop(context);
+                } else if (_image != null) {
+                  FirebaseFlutter().publish(
+                    text:
+                        textController.text != null || textController.text != ''
+                            ? textController.text
+                            : null,
+                    img: _image != null ? _image : null,
+                    context: context,
+                  );
+                  Navigator.pop(context);
+                } else {
+                  setState(() {
+                    isEmpty = true;
+                  });
                 }
               },
               child: const Text('Publicar'),
             ),
+            isEmpty
+                ? const Center(
+                    child: Text(
+                      'Publicar algo vazio é díficil...',
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),

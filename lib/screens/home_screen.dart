@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_network/screens/create_pub_screen.dart';
 import 'package:social_network/widgets/bottom_navigator_widget.dart';
@@ -12,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text('Ocorreu um erro ao carregar as publicações'),
                       );
                     } else {
-                      List<DocumentSnapshot> documents = snapshot.data!.docs;
+                      List<DocumentSnapshot> documents =
+                          snapshot.data!.docs.reversed.toList();
 
                       return ListView.builder(
                         itemCount: documents.length,
@@ -61,6 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             text:
                                 item.containsKey('text') ? item['text'] : null,
                             timestamp: item['date'],
+                            displayName: item['displayName'],
+                            photoURL: item['photoURL'],
+                            uid: item['uid'],
                           );
                         },
                       );

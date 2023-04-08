@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:social_network/utils/user_mobx.dart';
 
 import '../utils/authentication.dart';
 
 class GoogleSignInButtonWidget extends StatefulWidget {
+  final Function restarState;
+
+  const GoogleSignInButtonWidget({super.key, required this.restarState});
   @override
   _GoogleSignInButtonWidgetState createState() =>
       _GoogleSignInButtonWidgetState();
@@ -14,15 +18,17 @@ class _GoogleSignInButtonWidgetState extends State<GoogleSignInButtonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
-        child: _isSigningIn
-            ? const CircularProgressIndicator(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: _isSigningIn
+          ? const Center(
+              child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              )
-            : OutlinedButton(
+              ),
+            )
+          : SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                   shape: MaterialStateProperty.all(
@@ -42,6 +48,11 @@ class _GoogleSignInButtonWidgetState extends State<GoogleSignInButtonWidget> {
                   setState(() {
                     _isSigningIn = false;
                   });
+
+                  UserMobX userMobX = UserMobX();
+                  userMobX.setUser([user]);
+
+                  widget.restarState();
                 },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -68,7 +79,7 @@ class _GoogleSignInButtonWidgetState extends State<GoogleSignInButtonWidget> {
                   ),
                 ),
               ),
-      ),
+            ),
     );
   }
 }

@@ -44,7 +44,7 @@ class BottomNavigatorWidget extends StatelessWidget {
                   if (index != 1) {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => const UserScreen(),
+                        builder: (context) => UserScreen(),
                       ),
                     );
                   }

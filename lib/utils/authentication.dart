@@ -61,9 +61,11 @@ class Authentication {
 
   static Future<void> signOut({required BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
+    FirebaseAuth auth = FirebaseAuth.instance;
 
     try {
       await googleSignIn.signOut();
+      await auth.signOut();
       ScaffoldMessenger.of(context).showSnackBar(
         Authentication.customSnackBar(
           content: 'Saiu com sucesso!',
@@ -76,6 +78,8 @@ class Authentication {
         ),
       );
     }
+
+    print(auth.currentUser);
   }
 
   static SnackBar customSnackBar({required String content}) {

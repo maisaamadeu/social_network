@@ -1,12 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class PubWidget extends StatelessWidget {
-  const PubWidget(
-      {super.key, this.imageURL, this.text, required this.timestamp});
+  const PubWidget({
+    super.key,
+    this.imageURL,
+    this.text,
+    required this.timestamp,
+    required this.displayName,
+    required this.photoURL,
+    required this.uid,
+  });
   final String? imageURL;
   final String? text;
+  final String displayName;
+  final String photoURL;
+  final String uid;
   final Timestamp timestamp;
 
   @override
@@ -32,7 +43,7 @@ class PubWidget extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Image.network(
-                        'https://images.pexels.com/photos/14396021/pexels-photo-14396021.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        photoURL,
                         height: 50,
                         width: 50,
                       ),
@@ -40,8 +51,8 @@ class PubWidget extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    const Text(
-                      'Usúario',
+                    Text(
+                      displayName,
                       style: TextStyle(
                         fontSize: 18,
                       ),
